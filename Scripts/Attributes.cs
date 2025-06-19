@@ -1,4 +1,4 @@
-﻿/*
+/*
 The MIT License (MIT)
 
 Copyright (c) 2015 Sergey Sychov
@@ -24,9 +24,11 @@ SOFTWARE.
 
 using System;
 using System.Reflection;
+using JetBrains.Annotations;
 
 namespace BehaviourInject
 {
+	[MeansImplicitUse,AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method)]
     public class InjectAttribute : Attribute
     { }
 
@@ -35,9 +37,11 @@ namespace BehaviourInject
 	/// Type of created object might be not registered, but all of it's dependencies has to be registered.
 	/// Each member with this attribute will obtain it's own unique newely created object
 	/// </summary>
+	[MeansImplicitUse,AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method)]
     public class CreateAttribute : Attribute
     { }
 
+	[MeansImplicitUse,AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method)]
 	public class InjectEventAttribute : Attribute
 	{
 		//Defines if event ancestors is valid event receivers.
