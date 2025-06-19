@@ -1,5 +1,6 @@
-﻿#if UNITY_EDITOR
+#if UNITY_EDITOR
 using UnityEditor;
+using UnityEngine;
 #endif
 
 namespace BehaviourInject.Internal
@@ -18,10 +19,11 @@ namespace BehaviourInject.Internal
 		void OnEnable()
 		{
 			_settings = Settings.Load();
-			_choosenContext = serializedObject.FindProperty("_contextIndex"); ;
-			_useHierarchy = serializedObject.FindProperty("_useHierarchy"); ;
+			_choosenContext = serializedObject.FindProperty("_contextIndex");
+			;
+			_useHierarchy = serializedObject.FindProperty("_useHierarchy");
+			;
 		}
-
 
 		public override void OnInspectorGUI()
 		{
@@ -46,6 +48,27 @@ namespace BehaviourInject.Internal
 				if (_isDropped)
 				{
 					EditorGUILayout.HelpBox("Context index exceeded. Returned to " + contextNames[0], MessageType.Warning);
+				}
+			}
+
+			if (targets.Length == 1)
+			{
+				if (target is Injector injector)
+				{
+					if (injector.GetComponents<Component>()[1] != injector)
+					{
+						EditorGUILayout.HelpBox("Should be first in components order!", MessageType.Warning);
+						if (GUILayout.Button("Make first"))
+						{
+							var gameObject = injector.gameObject;
+							int safetyCounter = 100;
+							while (safetyCounter > 0 || gameObject.GetComponents<Component>()[1] != injector)
+							{
+								safetyCounter--;
+								UnityEditorInternal.ComponentUtility.MoveComponentUp(injector);
+							}
+						}
+					}
 				}
 			}
 
