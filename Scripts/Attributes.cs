@@ -28,7 +28,7 @@ using JetBrains.Annotations;
 
 namespace BehaviourInject
 {
-	[MeansImplicitUse,AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method)]
+	[MeansImplicitUse,AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method | AttributeTargets.Constructor)]
     public class InjectAttribute : Attribute
     { }
 
