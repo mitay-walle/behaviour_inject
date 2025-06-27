@@ -37,7 +37,7 @@ namespace BehaviourInject
 	/// Type of created object might be not registered, but all of it's dependencies has to be registered.
 	/// Each member with this attribute will obtain it's own unique newely created object
 	/// </summary>
-	[MeansImplicitUse,AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method)]
+	[AttributeUsage(AttributeTargets.Parameter | AttributeTargets.GenericParameter)]
     public class CreateAttribute : Attribute
     { }
 
