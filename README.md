@@ -18,7 +18,7 @@ Just define core classes and interfaces required by game logic, mark some method
 
 ### Core feature ###
 
-BInject preserves natural Unity3d scripting and instancing pipeline. It is its core concept and major difference from other DI tools. It might be added even to long time supported project almost without modifications. 
+A core concept of BInject is in preserving natural Unity3d scripting. Unlike other DI tools it doesn't require any special code in business logic and might be added even in long term project with little modifications. Your logic easily might be unaware of Binject's presence in project.
 
 Only thing required is component "Injector" added to GameObject along other scripts. All the rest works fine in plain old way and takes almost no processor time.
 
@@ -43,7 +43,7 @@ For most cases you will need only three entities:
 
 ### Initialization ###
 
-Use any of your behaviours to settle following code. Make shure that it awakes BEFORE other behaviours, where you want to inject properties, and Injector.
+Use any of your behaviours to settle following code. Make sure that it awakes BEFORE other behaviours, where you want to inject properties, and Injector.
 
 ```csharp
 void Awake(){
@@ -57,7 +57,7 @@ void Awake(){
 
 Place 'Injector' at first place in the GameObject, adjacently to your dependent behaviours. "Context" dropdown defines what context you are now using. Thus you can use multiple contexts in your application.
 
-![alt text](Documentation/placing_injector.JPG)
+![alt text](Documentation~/placing_injector.JPG)
 
 In your MonoBehaviour mark dependency in this way:
 
@@ -81,13 +81,13 @@ public class MyBehaviour : MonoBehaviour
 
 Voila! MyDataModel should be there after Awake of the Injector. Note that if you want to use dependencies in Awake method, you should guarantee that Injector awakes before your target behaviours (but still after behaviour where context is created). In best case execution order must be like this: ContextCreator => Injector => Your code. Consider using 'Script Execution Order' feature in Unity.
 
-![alt text](Documentation/execution_order.JPG)
+![alt text](Documentation~/execution_order.JPG)
 
 ### Core concept ###
 
 Right after you've created Context it is added to global ContextRegistry. When Injector awakes it checks if specified Context exists. Then it lists all [Inject]-marked fields, properties and setters in all scripts in current GameObject. For each found member it resolves corresponding object from context and sets this object to this member. As a result all other scripts already have their dependencies in place on awakening.
 
-![alt text](Documentation/core_concept.png)
+![alt text](Documentation~/core_concept.png)
 
 ## <a id="multiple"></a> Multiple contexts
 <a href="#table">Back to contents</a>
@@ -238,6 +238,20 @@ public class Foo
     {
         Bar newlyComposedObject = _instantiator.New<Bar>();
     }
+}
+```
+It is also possible to call instantiator.New<T>() with additional custom arguments if needed by constructor of T.
+```csharp
+var b = new AdditionalCustomDependency;
+var c = new AdditionalCustomDependency2;
+
+Bar newlyComposedObject = _instantiator.New<Bar>(b, c);
+	
+public class Bar
+{
+	public Bar(ContextLocatedDependency a, // this dependency comes from context as usual
+		AdditionalCustomDependency b, AdditionalCustomDependency2 c) // these dependencies comes from 'New' arguments. Order is not important
+	...
 }
 ```
 
@@ -414,7 +428,7 @@ public class CustomContext : HierarchyContext
 It is important to call **CreateLocal** to create context that will be correspond ONLY to this gameObject. Otherwise it will create global "default" context and probably throw an exception.
 Now if any Injector in it's children has toggled "Use hierarchy" it will search for **HierarchyContext** in it's parents upwards and resolve it's context.
 
-![alt text](Documentation/hierarchy_context.png)
+![alt text](Documentation~/hierarchy_context.png)
 
 Just remember that in case of manual context creation you are also responsible for it's destruction, so it's a good practice to destroy contexts in OnDestroy().
 

@@ -49,7 +49,7 @@ namespace BehaviourInject
 	}
 
 
-	public static class AttributeUtils
+	internal static class AttributeUtils
 	{
 		public static bool IsMarked<T>(ICustomAttributeProvider member)
 		{

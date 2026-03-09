@@ -4,7 +4,7 @@ using UnityEngine;
 using BehaviourInject;
 using BehaviourInject.Test;
 
-namespace TestIgonreNamespace
+namespace BehaviourInject.Test.TestIgnoreNamespace
 {
 	public class Ignored : MonoBehaviour
 	{
@@ -14,6 +14,6 @@ namespace TestIgonreNamespace
 		void Start()
 		{
 			Assert.IsNull(Dependency, "ignore namespace");
-		}
+		}	
 	}
 }
